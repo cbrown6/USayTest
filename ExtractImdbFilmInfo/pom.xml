@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>uk.co.cjb</groupId>
+    <artifactId>ExtractImdbFilmInfo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>agile functional tests</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF8</project.build.sourceEncoding>
+        <cucumber.version>1.2.4</cucumber.version>
+        <cucumber.jvm.parallel.version>1.0.1</cucumber.jvm.parallel.version>
+        <selenium.version>2.53.0</selenium.version>
+        <surefire.maven.plugin.version>2.19.1</surefire.maven.plugin.version>
+        <acceptance.test.parallel.count>4</acceptance.test.parallel.count>
+        <json.simple.version>1.1</json.simple.version>
+        <hamcrest.library.version>1.3</hamcrest.library.version>
+        <cucumber.picocontainer.version>1.2.0</cucumber.picocontainer.version>
+        <phantomjs.driver.version>1.3.0</phantomjs.driver.version>
+        <commons-lang3.version>3.4</commons-lang3.version>
+        <parallelTags></parallelTags>
+        <mainReportOutputLocation>\\wappsgbwa001022\asap\Release Team\Digital Test Team\Automation Execution reports/${parallelTags}/${env}/${country}/</mainReportOutputLocation>
+        <reportOutputLocation>${project.build.directory}/cucumber-html-reports/${env}}/${country}</reportOutputLocation>
+        <numberOfForks>3</numberOfForks>
+    </properties>
+
+
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env></env>
+                <country>uk</country>
+                <driver>FIREFOX</driver>
+            </properties>
+        </profile>        <profile>
+            <id>prep</id>
+            <properties>
+                <env>prep-</env>
+                <country>uk</country>
+                <driver>FIREFOX</driver>
+            </properties>
+        </profile>
+        <profile>
+            <id>st2</id>
+            <properties>
+                <env>st2-</env>
+                <country>uk</country>
+                <driver>FIREFOX</driver>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.temyers</groupId>
+                <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+                <version>1.3.0</version>
+                <executions>
+                    <execution>
+                        <id>generateRunners</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generateRunners</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Mandatory -->
+                            <!-- comma separated list of package names to scan for glue code -->
+                            <glue>stepdefs</glue>
+                            <!-- These are the default values -->
+                            <!-- Where to output the generated Junit tests -->
+                            <outputDirectory>${project.build.directory}/generated-test-sources/cucumber
+                            </outputDirectory>
+                            <!-- The diectory containing your feature files.  -->
+                            <featuresDirectory>src/test/resources/cucumber/</featuresDirectory>
+                            <!-- Directory where the cucumber report files shall be written  -->
+                            <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
+                            <!-- comma separated list of output formats -->
+                            <format>json</format>
+                            <namingScheme>feature-title</namingScheme>
+                            <!-- CucumberOptions.strict property -->
+                            <strict>true</strict>
+                            <!-- CucumberOptions.monochrome property -->
+                            <monochrome>true</monochrome>
+                            <!-- The tags to run, maps to CucumberOptions.tags property -->
+                            <tags>"@${parallelTags}"</tags>
+                            <!-- If set to true, only feature files containing the required tags shall be generated. -->
+                            <!-- Excluded tags (~@notMe) are ignored. -->
+                            <filterFeaturesByTags>true</filterFeaturesByTags>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.maven.plugin.version}</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <env>${env}</env>
+                        <country>${country}</country>
+                    </systemPropertyVariables>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>acceptance-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <forkCount>${numberOfForks}</forkCount>
+                            <reuseForks>true</reuseForks>
+                            <includes>
+                                <include>**/*IT.class</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Scheduled Regression - ${env}${country}</projectName>
+                            <outputDirectory>${reportOutputLocation}</outputDirectory>
+                            <cucumberOutput>${project.build.directory}/cucumber-parallel/</cucumberOutput>
+                            <parallelTesting>true</parallelTesting>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>maven-cucumber-reporting</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-report-parser</artifactId>
+            <version>2.19.1</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>${json.simple.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>${hamcrest.library.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.picocontainer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>phantomjsdriver</artifactId>
+            <version>${phantomjs.driver.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.co.cjb</groupId>
+            <artifactId>CjbCommonLibrary</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/Colin/.m2/repository/uk/co/cjb/CjbCommonLibrary/1.0/CjbCommonLibrary-1.0.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+</project>
