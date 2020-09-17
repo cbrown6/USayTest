@@ -207,13 +207,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
         </dependency>
-        <dependency>
-            <groupId>uk.co.cjb</groupId>
-            <artifactId>CjbCommonLibrary</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/User/.m2/repository/uk/co/cjb/CjbCommonLibrary/1.0/CjbCommonLibrary-1.0.jar</systemPath>
-        </dependency>
     </dependencies>
 
 </project>
