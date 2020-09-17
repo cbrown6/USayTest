@@ -12,12 +12,13 @@
         <project.build.sourceEncoding>UTF8</project.build.sourceEncoding>
         <cucumber.version>1.2.4</cucumber.version>
         <cucumber.jvm.parallel.version>1.0.1</cucumber.jvm.parallel.version>
+        <cucumber.picocontainer.version>1.2.0</cucumber.picocontainer.version>
         <selenium.version>2.53.0</selenium.version>
+        <!-- -->
         <surefire.maven.plugin.version>2.19.1</surefire.maven.plugin.version>
         <acceptance.test.parallel.count>4</acceptance.test.parallel.count>
         <json.simple.version>1.1</json.simple.version>
         <hamcrest.library.version>1.3</hamcrest.library.version>
-        <cucumber.picocontainer.version>1.2.0</cucumber.picocontainer.version>
         <phantomjs.driver.version>1.3.0</phantomjs.driver.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <parallelTags></parallelTags>
@@ -38,7 +39,8 @@
                 <country>uk</country>
                 <driver>FIREFOX</driver>
             </properties>
-        </profile>        <profile>
+        </profile>
+        <profile>
             <id>prep</id>
             <properties>
                 <env>prep-</env>
@@ -165,14 +167,19 @@
             <version>3.1.0</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.maven.surefire</groupId>
-            <artifactId>surefire-report-parser</artifactId>
-            <version>2.19.1</version>
-        </dependency>
-        <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.picocontainer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-report-parser</artifactId>
+            <version>2.19.1</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -191,11 +198,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-picocontainer</artifactId>
-            <version>${cucumber.picocontainer.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>phantomjsdriver</artifactId>
             <version>${phantomjs.driver.version}</version>
@@ -210,7 +212,7 @@
             <artifactId>CjbCommonLibrary</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>C:/Users/Colin/.m2/repository/uk/co/cjb/CjbCommonLibrary/1.0/CjbCommonLibrary-1.0.jar</systemPath>
+            <systemPath>C:/Users/User/.m2/repository/uk/co/cjb/CjbCommonLibrary/1.0/CjbCommonLibrary-1.0.jar</systemPath>
         </dependency>
     </dependencies>
 

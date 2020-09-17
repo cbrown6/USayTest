@@ -32,6 +32,7 @@ public class DriverFactory {
     }
 
     public WebDriver getDriver() {
+
         if(RunCukesTest.useBrowserStack || Boolean.parseBoolean(System.getProperty("runFromCMD"))) {
 
             String USERNAME = "anthonysoares1";
@@ -91,7 +92,12 @@ public class DriverFactory {
                 System.setProperty("webdriver.chrome.driver", "../chromedriver.exe");
             }
 
-           return new ChromeDriver(options);
+            WebDriver driver = new ChromeDriver(options);
+
+            driver.manage().timeouts().implicitlyWait(Long.parseLong(properties.getProperty("driver.implicit.wait")), TimeUnit.SECONDS);
+            driver.manage().timeouts().pageLoadTimeout(Long.parseLong(properties.getProperty("driver.page.load.timeout")), TimeUnit.SECONDS);
+
+            return driver;
         }
 
     }

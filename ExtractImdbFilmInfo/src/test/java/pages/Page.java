@@ -273,8 +273,9 @@ public abstract class Page {
     //*** FIND / SELECT ELEMENT METHODS
     //*********************************************************************************************************
     public boolean elementPresent(By locator) {
-        setImplicitTimeout(Long.parseLong(propertiesReader.getProperty("driver.implicit.wait")));
+        setImplicitTimeout(1);
         List<WebElement> s = webDriver.findElements(locator);
+        setImplicitTimeout(Long.parseLong(propertiesReader.getProperty("driver.implicit.wait")));
         if (s.size() >0){
             if (webDriver.findElement(locator).isDisplayed()){
                 return true;
@@ -364,8 +365,9 @@ public abstract class Page {
 
     //*** getText
     public String getText(By locator) {
-        String value = webDriver.findElement(locator).getText();
-        return value;
+        return WAIT_3.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText().trim();
+        //String value = webDriver.findElement(locator).getText();
+        //return value;
     }
 
     public boolean textFromElementContains(By locator, String substr){

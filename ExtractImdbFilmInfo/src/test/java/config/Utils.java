@@ -16,13 +16,14 @@ public class Utils {
 	* Adds n days from today
 	* @return date in dd/mm/yy format
 	*/
+	/*
 	public static String getDate(int daysToAdd){
         DateFormat dateFormat = new SimpleDateFormat( new PropertiesReader().getProperty("simple.date.format"));
         Calendar calendar = Calendar.getInstance();
  		calendar.add( Calendar.DATE,daysToAdd );
 		return dateFormat.format(calendar.getTime());
 	}
-
+*/
 	public static ArrayList<ArrayList<String>> parseDataFromCsvFile(String filename, String delimeter)
 	{
 		//Initialise new Array variable to store CSV information

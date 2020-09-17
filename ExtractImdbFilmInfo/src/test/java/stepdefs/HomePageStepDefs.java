@@ -13,15 +13,11 @@ import static org.junit.Assert.assertTrue;
 public class HomePageStepDefs {
 
     private HomePage homePage;
-    private CategoryPage categoryPage;
-    private TitlePage titlePage;
     private PropertiesReader props;
 
 
     public HomePageStepDefs(SharedDriver webDriver) {
         homePage = new HomePage(webDriver);
-        titlePage = new TitlePage(webDriver);
-        categoryPage = new CategoryPage(webDriver);
         //props = new PropertiesReader();
         props = webDriver.getPropertiesReader();
     }
@@ -34,25 +30,67 @@ public class HomePageStepDefs {
      WHEN
      ***************************************************/
 
-    @When("^I navigate to ([^\"]*) category via menu dropdown$")
-    public void I_navigate_to_the_category_via_menu_dropdown(String categoryOption) throws Throwable {
-        homePage.clickMenuDropDown();
-        homePage.selectCategoryByText(categoryOption.toLowerCase());
-        // waitForPageToLoad method is in Page Class, I have used titlePage in the following line to
-        // show what we are waiting for
-        categoryPage.waitForPageToLoad();
+    @When("^I navigate to the Signin page$")
+    public void I_navigate_to_the_Signin_page() throws Throwable {
+        homePage.navigateToSignInPage();
     }
 
-    @When("^I search by ([^\"]*)$")
-    public void I_search_by_film_name(String filmName) throws Throwable {
-        homePage.searchFilmName(filmName);
-        titlePage.waitForPageToLoad();
+
+    @When("^enter valid logon details and submit$")
+    public void I_enter_valid_logon_details() throws Throwable {
+        homePage.enterLoginDetails();
+        homePage.clickLoginButton();
+    }
+
+    @When("^I enter the ([^\"]*) into Create an Account$")
+    public void I_enter_the_emailAddress_into_Create_an_Account(String emailAddress) throws Throwable {
+        homePage.enterEmailAddressAndSubmit(emailAddress);
+    }
+    @When("^I navigate to Create an Account Details form ([^\"]*)$")
+    public void I_navigate_to_Create_an_Account_Details_form(String emailAddress) throws Throwable {
+        homePage.navigateToSignInPage();
+        homePage.enterEmailAddressAndSubmit(emailAddress);
+        homePage.submitCreateAnAccount();
+    }
+
+    @When("^I click Register Button$")
+    public void I_click_Register_Button() throws Throwable {
+        homePage.clickRegister();
+    }
+
+    @When("^I enter valid details$")
+    public void I_enter_valid_details() throws Throwable {
+        homePage.clickRegister();
     }
 
     /****************************************************
      THEN
      ***************************************************/
+    @Then("^error message is displayed$")
+    public void Error_message_is_displayed() throws Throwable {
+        homePage.checkErrorMessageDisplayed();
+    }
 
+    @Then("^I click Create an Account without email address$")
+    public void I_click_Create_an_Account_without_email_address() throws Throwable {
+        homePage.submitCreateAnAccount();
+    }
+
+    @Then("^the Create an Account Details form is displayed$")
+    public void the_Create_an_Account_Details_frame_is_displayed() throws Throwable {
+        homePage.checkAccountDetailsFormIsDisplayed();
+    }
+
+    @Then("^message is displayed showing all Mandatory fields required$")
+    public void message_is_displayed_showing_all_Mandatory_fields_required() throws Throwable {
+        homePage.checkMandatoryFields();
+    }
+
+
+    @Then("^the correct account will be logged in$")
+    public void the_correct_account_will_be_logged_in() throws Throwable {
+        homePage.checkAccountLoggedIn();
+    }
 }
 
 

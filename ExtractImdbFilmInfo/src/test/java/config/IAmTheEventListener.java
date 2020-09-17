@@ -22,7 +22,7 @@ public class IAmTheEventListener implements WebDriverEventListener {
 
     @Override
     public void afterNavigateTo(String var1, WebDriver var2){
-        System.out.println("hello");
+        //System.out.println("hello");
 
     };
 
@@ -86,7 +86,7 @@ public class IAmTheEventListener implements WebDriverEventListener {
 
     @Override
     public void onException(Throwable var1, WebDriver var2){
-        System.out.println("hello2");
+        //System.out.println("hello2");
         try{
             var2.findElement(BUTTON_RS_INVITE_CLOSE).click();
 
@@ -97,7 +97,7 @@ public class IAmTheEventListener implements WebDriverEventListener {
 
         if (var1.equals("NoSuchElementException")){
             System.console();
-            System.out.println("got you!");
+            //System.out.println("got you!");
         }
     };
 
